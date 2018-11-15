@@ -14,6 +14,7 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
@@ -57,8 +58,26 @@ public class Login extends JFrame {
 		Submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				
+				
 				String uname = userNameEntry.getText();
 				String pass = passwordEntry.getText();
+				
+				final String ROOT_FILE_PATH="/";
+				File f=new File(ROOT_FILE_PATH);
+				File[] allSubFiles=f.listFiles();
+				for (File file : allSubFiles) {
+				    if(file.isDirectory())
+				    {
+				        System.out.println(file.getAbsolutePath()+" is directory");
+				        //Steps for directory
+				    }
+				    else
+				    {
+				        System.out.println(file.getAbsolutePath()+" is file");
+				        //steps for files
+				    }
+				}		
 				
 				if(uname.equals("Name") && pass.equals("Pass")) {
 					JOptionPane.showMessageDialog(Login, "Log in was sucessful");
@@ -69,22 +88,32 @@ public class Login extends JFrame {
 				}
 				
 				else {
-					JOptionPane.showMessageDialog(Login, "Error Invalid");
+					JOptionPane.showMessageDialog(Login, "Error Invalid Login Information");
 					
 				}
 			}
 			
 		});
 		Submit.setForeground(Color.BLACK);
-		Submit.setBackground(Color.GRAY);
+		Submit.setBackground(Color.WHITE);
 		Submit.setFont(new Font("Tahoma", Font.BOLD, 12));
 		Submit.setBounds(10, 167, 152, 42);
 		contentPane.add(Submit);
 		
+		
+		//NEW USER BUTTON LOGIN SCREEN
 		JButton newUser = new JButton("New User");
+		newUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				newUser newUserScreen = new newUser();
+				newUserScreen.setVisible(true);
+				setVisible(false);	
+				
+			}
+		});
 		newUser.setForeground(Color.BLACK);
 		newUser.setFont(new Font("Tahoma", Font.BOLD, 12));
-		newUser.setBackground(Color.GRAY);
+		newUser.setBackground(Color.WHITE);
 		newUser.setBounds(272, 167, 152, 42);
 		contentPane.add(newUser);
 		
