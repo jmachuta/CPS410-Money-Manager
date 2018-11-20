@@ -14,7 +14,13 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
@@ -47,7 +53,7 @@ public class Login extends JFrame {
 	 */
 	public Login() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 250);
+		setBounds(100, 100, 589, 343);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -58,37 +64,71 @@ public class Login extends JFrame {
 		Submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
-				
 				String uname = userNameEntry.getText();
 				String pass = passwordEntry.getText();
 				
-				final String ROOT_FILE_PATH="/";
-				File f=new File(ROOT_FILE_PATH);
-				File[] allSubFiles=f.listFiles();
-				for (File file : allSubFiles) {
-				    if(file.isDirectory())
-				    {
-				        System.out.println(file.getAbsolutePath()+" is directory");
-				        //Steps for directory
-				    }
-				    else
-				    {
-				        System.out.println(file.getAbsolutePath()+" is file");
-				        //steps for files
-				    }
-				}		
+			//Read files in directory
+				File file = new File("/C:/MoneyManager/");
+				//ARRAY WITH USERNAMES
+				String[] directories = file.list(new FilenameFilter() {
+				  @Override
+				  public boolean accept(File current, String name) {
+				    return new File(current, name).isDirectory();
+				  }
+				});
+				//System.out.println(Arrays.toString(directories));
+				String currentusr=null;
+				for(int i = 0; i < directories.length; i++) {
+				if(uname.equals(directories[i])) {
+				//System.out.println("MATCH!" + directories[i]);
+				currentusr = uname;	
+				}
+				else {
+					
+					//Need error checking w/o termination just allow retry?
+					
+					System.out.println("User not found!");
+					System.exit(0);	
+				}
+				}
 				
-				if(uname.equals("Name") && pass.equals("Pass")) {
+				String currentdirectory = "/C:/MoneyManager/"+currentusr;
+				File currentfile = new File(currentdirectory);
+				BufferedReader br = null;
+				String fiusr = null, fipass = null;
+				String st = null;
+				int startval = 0;
+				try {
+					br = new BufferedReader(new FileReader(currentfile+"/pass.txt"));
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				try {
+					
+						fiusr = br.readLine();
+						fipass = br.readLine();
+						startval = br.read();
+						
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
+				
+				System.out.println("INFO IS: " +fiusr + " "+ fipass + " "+startval);
+				
+				
+				
+				if(uname.equals(fiusr) && pass.equals(fipass)) {
 					JOptionPane.showMessageDialog(Login, "Log in was sucessful");
 					MainScreen mainscreen = new MainScreen();
 					mainscreen.setVisible(true);
 					setVisible(false);
 					
 				}
-				
 				else {
-					JOptionPane.showMessageDialog(Login, "Error Invalid Login Information");
+					JOptionPane.showMessageDialog(Login, "Error Invalid Login Information, try again!");
 					
 				}
 			}

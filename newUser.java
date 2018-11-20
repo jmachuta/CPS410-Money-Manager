@@ -4,10 +4,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JSlider;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
@@ -46,7 +50,7 @@ public class newUser extends JFrame {
 	 */
 	public newUser() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 670, 328);
+		setBounds(100, 100, 883, 401);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -94,18 +98,19 @@ public class newUser extends JFrame {
 	public void actionPerformed(ActionEvent e) {
 				
 		
-	//CHANGE USERNAME IS PATH ADDRESS ***********************************	
+	//Path address is in C drive:
 		
 	String newUser = newUserName.getText();
 	String newPass = newUserPass.getText();
 	String SstartVal = textField.getText();
 	double startVal = Double.parseDouble(SstartVal);
-	new File("/C:/Users/berge1ea/Desktop/MoneyManager").mkdirs();
-	new File("/C:/Users/berge1ea/Desktop/MoneyManager/"+ newUser).mkdirs();			
+	new File("/C:/MoneyManager").mkdirs();
+	new File("/C:/MoneyManager/"+ newUser).mkdirs();			
+	
 	
 	PrintWriter writer = null;
 	try {
-		writer = new PrintWriter("/C:/Users/berge1ea/Desktop/MoneyManager/"+newUser+"/pass.txt", "UTF-8");
+		writer = new PrintWriter("/C:/MoneyManager/"+newUser+"/pass.txt", "UTF-8");
 	} catch (FileNotFoundException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
@@ -117,6 +122,8 @@ public class newUser extends JFrame {
 	writer.println(newPass);
 	writer.println(startVal);
 	writer.close();
+	Component popup = null;
+	JOptionPane.showMessageDialog(popup, "ACCOUNT MADE SUCCESSFULLY");
 
 	
 		}});
@@ -140,5 +147,19 @@ public class newUser extends JFrame {
 		separator.setForeground(Color.BLUE);
 		separator.setBounds(0, 39, 654, 10);
 		contentPane.add(separator);
+		
+		JButton btnLoginPage = new JButton("Login Page");
+		btnLoginPage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Login login = new Login();
+				login.setVisible(true);
+				setVisible(false);
+				
+				
+			}
+		});
+		btnLoginPage.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		btnLoginPage.setBounds(26, 241, 171, 41);
+		contentPane.add(btnLoginPage);
 	}
 }
