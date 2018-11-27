@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 public class Login extends JFrame {
 
 	protected static final Component Login = null;
+	public  static String currentdirectory;
 	private JPanel contentPane;
 	private JTextField userNameEntry;
 	private JTextField passwordEntry;
@@ -87,12 +88,12 @@ public class Login extends JFrame {
 					
 					//Need error checking w/o termination just allow retry?
 					
-					System.out.println("User not found!");
-					System.exit(0);	
+					//System.out.println("User not found!");
+					//System.exit(0);	
 				}
 				}
 				
-				String currentdirectory = "/C:/MoneyManager/"+currentusr;
+				currentdirectory = "/C:/MoneyManager/"+currentusr;
 				File currentfile = new File(currentdirectory);
 				BufferedReader br = null;
 				String fiusr = null, fipass = null;
@@ -116,15 +117,22 @@ public class Login extends JFrame {
 					e1.printStackTrace();
 				} 
 				
-				System.out.println("INFO IS: " +fiusr + " "+ fipass + " "+startval);
+				//System.out.println("INFO IS: " +fiusr + " "+ fipass + " "+startval);
 				
 				
 				
 				if(uname.equals(fiusr) && pass.equals(fipass)) {
 					JOptionPane.showMessageDialog(Login, "Log in was sucessful");
-					MainScreen mainscreen = new MainScreen();
-					mainscreen.setVisible(true);
-					setVisible(false);
+					try {
+						Homepage hp = new Homepage();
+						hp.homepageScreen();
+						setVisible(false);
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+
 					
 				}
 				else {
@@ -181,6 +189,7 @@ public class Login extends JFrame {
 		userNameEntry.setColumns(10);
 		
 		passwordEntry = new JTextField();
+		passwordEntry.setFont(new Font("Bookshelf Symbol 7", Font.BOLD, 13));
 		passwordEntry.setColumns(10);
 		passwordEntry.setBounds(97, 104, 294, 29);
 		contentPane.add(passwordEntry);
@@ -189,5 +198,20 @@ public class Login extends JFrame {
 		separator.setBackground(Color.BLUE);
 		separator.setBounds(0, 32, 434, 50);
 		contentPane.add(separator);
+	}
+	
+//	public void showHomepage() throws FileNotFoundException {
+//		Homepage getHomepage = new Homepage();
+//		getHomepage.homepage();
+//		setVisible(false);
+//	}
+	public String setUserName(String name) {
+		final String currentdirectory=name;
+		return currentdirectory;
+	}
+	
+	public String getName(String name) {
+		String test = name;
+		return test;
 	}
 }
